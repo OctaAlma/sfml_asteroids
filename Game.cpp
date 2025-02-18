@@ -1,12 +1,22 @@
 #include "./Game.hpp"
+#include "./Definitions.h"
 #include <iostream>
 #include <math.h>
 using std::cout, std::endl;
 
-Game::Game():window(sf::VideoMode(640, 480), "SFML App"), player(){}
+Game::Game():window(sf::VideoMode(RESOLUTION_WIDTH, RESOLUTION_HEIGHT), "SFML App"), player(), asteroids(NUM_STARTING_ASTEROIDS){
+    
+    if (!asteroidTexture.loadFromFile("./resources/asteroid.png")){
+        cout << "Could not load asteroid texture file...\n";
+        exit(0);
+    }
+
+    for (int i = 0; i < NUM_STARTING_ASTEROIDS; i++){
+        asteroids[i] = Asteroid(asteroidTexture);
+    }
+}
 
 void Game::run(){
-
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
@@ -56,10 +66,16 @@ void Game::processEvents(){
 
 void Game::update(sf::Time delta){
     player.update(delta);
+    for (int i = 0; i < asteroids.size(); i++){
+        asteroids[i].update(delta);
+    }
 }
 
 void Game::render(){
     window.clear();
     window.draw(player.getSprite(), sf::RenderStates::Default);
+    for (int i = 0; i < asteroids.size(); i++){
+        window.draw(asteroids[i].getSprite(), sf::RenderStates::Default);
+    }
     window.display();
 }

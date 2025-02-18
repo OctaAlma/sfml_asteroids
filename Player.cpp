@@ -1,4 +1,5 @@
 #include "Player.hpp"
+#include "./Definitions.h"
 #include <iostream>
 #include <string.h>
 #include <math.h>
@@ -18,46 +19,15 @@ Player::Player(){
     this->playerSprite.setOrigin({592, 592});
     this->playerSprite.setTexture(playerTexture);
     this->playerSprite.setPosition(100.0f, 100.0f);
-    this->playerSprite.setScale(0.1f, 0.1f);
+    this->playerSprite.setScale(SHIP_SCALE, SHIP_SCALE);
 }
 
 sf::Sprite& Player::getSprite(){ return this->playerSprite; }
-
-void applyPhysics(bool optInc, bool optDec, float& num, float increase, float naturalDecrease, float maxNum, float minNum){
-    if (optDec ^ optInc){
-        if (optDec){ num -= increase; }
-        if (optInc){ num += increase; }
-    }
-    else{
-        if (abs(num) < minNum){ num = 0.0f; }
-        else if (num > 0.0f){ num -= naturalDecrease; }
-        else if (num < 0.0f) { num += naturalDecrease; }
-    }
-
-    // Snap num to max if exceeding
-    if (abs(num) > maxNum){
-        if (num < 0.0f){ num = -maxNum; }
-        else if (num > 0.0f){ num = maxNum; }
-    }
-}
-
-sf::Vector2f rotateVec(sf::Vector2f vec, float angle){
-    float sinTheta = std::sin(angle * M_PI / 180.0f);
-    float cosTheta =  std::cos(angle * M_PI / 180.0f);
-    
-    sf::Vector2f res;
-    res.x = vec.x * cosTheta + vec.y * sinTheta;
-    res.y = vec.x * sinTheta - vec.y * cosTheta;
-
-    return res;
-}
 
 void Player::update(sf::Time delta){
 
     applyPhysics(rotating[RIGHT], rotating[LEFT], angularSpeed, ANGULAR_INCREASE, 
         NATURAL_ANGULAR_DEC, MAX_ANGULAR_SPEED, ANGULAR_THRESHOLD);
-
-    playerSprite.rotate(angularSpeed * delta.asSeconds());
 
     // Horizontal direction processing
     applyPhysics(moving[UP], moving[DOWN], momentumVec.y, SPEED_INCREASE, 
@@ -67,9 +37,15 @@ void Player::update(sf::Time delta){
         NATURAL_SPEED_DEC, MAX_SPEED, SPEED_THRESHOLD);
 
     // rotate the momentum vector based on the orientation of the ship
-    sf::Vector2f rotMomentumVec = rotateVec(momentumVec, playerSprite.getRotation());
+    sf::Vector2f rotMomentumVec = momentumVec;
+    rotateVec(rotMomentumVec, playerSprite.getRotation());
 
     playerSprite.move(rotMomentumVec * delta.asSeconds());
+    playerSprite.rotate(angularSpeed * delta.asSeconds());
+
+    sf::Vector2f pos = playerSprite.getPosition();
+    snapPosition(pos);
+    playerSprite.setPosition(pos);
 }
 
 void Player::updateMovement(sf::Keyboard::Key key, bool pressed){
@@ -85,13 +61,23 @@ void Player::updateMovement(sf::Keyboard::Key key, bool pressed){
     // else if (key == sf::Keyboard::D){
     //     moving[RIGHT] = pressed;
     // }
-    else if (key == sf::Keyboard::A){
+    else if (key == sf::Keyboard::Comma){
         rotating[LEFT] = pressed;
     }
-    else if (key == sf::Keyboard::Comma){
+    else if (key == sf::Keyboard::Period){
         rotating[RIGHT] = pressed;
     }
-    else if (key == sf::Keyboard::Period){
+    else if (key == sf::Keyboard::R){
         playerSprite.setPosition(100.0f, 100.0f);
     }
+}
+
+sf::Vector2f Player::getPos(){
+    return playerSprite.getPosition();
+}
+
+sf::Vector2f Player::getDir(){
+    sf::Vector2f v01(0.0, 1.0);
+    rotateVec(v01, playerSprite.getRotation());
+    return v01;
 }

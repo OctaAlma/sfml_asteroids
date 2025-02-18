@@ -1,14 +1,15 @@
 #include <SFML/Graphics.hpp>
 
 #define SHIP_TEXTURE "./resources/ship.png"
+#define SHIP_SCALE          0.05
 
-#define MAX_SPEED           650.0f
-#define SPEED_INCREASE      20.0f
-#define NATURAL_SPEED_DEC   10.0f
-#define SPEED_THRESHOLD     10.0f
+#define MAX_SPEED           450.0f
+#define SPEED_INCREASE      5.0f
+#define NATURAL_SPEED_DEC   3.0f
+#define SPEED_THRESHOLD     3.0f
 
 #define MAX_ANGULAR_SPEED   250.0f
-#define ANGULAR_INCREASE    10.0f
+#define ANGULAR_INCREASE    15.0f
 #define NATURAL_ANGULAR_DEC 3.0f
 #define ANGULAR_THRESHOLD   3.0f
 
@@ -38,4 +39,6 @@ public:
     sf::Sprite& getSprite();
     void update(sf::Time delta);
     void updateMovement(sf::Keyboard::Key key, bool pressed);
+    sf::Vector2f getPos();
+    sf::Vector2f getDir();
 };
