@@ -1,5 +1,7 @@
 #include "Asteroid.hpp"
 #include <random>
+#include <iostream>
+using std::cout, std::endl;
 
 Asteroid::Asteroid(){}
 
@@ -22,7 +24,7 @@ Asteroid::Asteroid(sf::Texture& asTex, unsigned int colorInd){
     normalize(dir);
 
     // set the color of the asteroid
-    sf::Color c(asteroid_colors[colorInd][0], asteroid_colors[colorInd][1], asteroid_colors[colorInd][2], 255);
+    sf::Color c(asteroid_colors[colorInd][0], asteroid_colors[colorInd][1], asteroid_colors[colorInd][2]);
     asteroidSprite.setColor(c);
 }
 

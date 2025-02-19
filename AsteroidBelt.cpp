@@ -1,6 +1,7 @@
 #include "AsteroidBelt.hpp"
 #include <string>
 #include <iostream>
+using std::cout, std::endl;
 
 AsteroidBelt::AsteroidBelt():textures(NUM_ASTEROID_TEXTURES), asteroids(NUM_STARTING_ASTEROIDS){
     std::string path = "./resources/asteroidX.png";
@@ -10,7 +11,7 @@ AsteroidBelt::AsteroidBelt():textures(NUM_ASTEROID_TEXTURES), asteroids(NUM_STAR
         path[xInd] = (i + '0');
 
         if (!textures[i].loadFromFile(path)){
-            std::cout << "Could not load texture file at " << path << std::endl;
+            cout << "Could not load texture file at " << path << endl;
             exit(1);
         }
     }

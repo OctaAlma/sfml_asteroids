@@ -4,8 +4,8 @@
 #define MIN_ASTEROID_SPEED      25.0f
 #define MAX_ASTEROID_SPEED      75.0f
 
-#define MIN_ASTEROID_SIZE       0.08f
-#define MAX_ASTEROID_SIZE       0.3f
+#define MIN_ASTEROID_SIZE       0.1f
+#define MAX_ASTEROID_SIZE       0.5f
 
 #define MIN_ASTEROID_X          0.0f
 #define MAX_ASTEROID_X          RESOLUTION_WIDTH
@@ -13,17 +13,20 @@
 #define MIN_ASTEROID_Y          0.0f
 #define MAX_ASTEROID_Y          RESOLUTION_HEIGHT
 
-const sf::Uint8 asteroid_colors[6][3] = 
+const sf::Uint8 asteroid_colors[9][3] = 
 {
-    {255, 255, 255},    // White
+    {255, 255, 255},    // white
     {215, 0, 21},       // red
     {48, 209, 88},      // green
     {10, 132, 255},     // blue
-    {255, 159, 0},      // Orange
-    {191, 90, 242}      // Purple
+    {255, 159, 0},      // orange
+    {0, 255, 255},      // cyan
+    {255, 51, 255},     // magenta
+    {255, 255, 0},      // yellow
+    {178, 100, 50}      // brown
 };
 
-#define NUM_ASTEROID_COLORS     sizeof(asteroid_colors)
+#define NUM_ASTEROID_COLORS         (sizeof(asteroid_colors)/3)
 
 class Asteroid{
 private:
