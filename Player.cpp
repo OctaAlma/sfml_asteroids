@@ -16,9 +16,10 @@ Player::Player(){
     memset(rotating, false, sizeof(bool)*2);
     this->rotation = 0;
 
-    this->playerSprite.setOrigin({592, 592});
     this->playerSprite.setTexture(playerTexture);
-    this->playerSprite.setPosition(100.0f, 100.0f);
+    sf::FloatRect bounds = playerSprite.getLocalBounds();
+    this->playerSprite.setOrigin({bounds.width / 2.0f, bounds.height / 2.0f});
+    this->playerSprite.setPosition(PLAYER_ORIGIN_X, PLAYER_ORIGIN_Y);
     this->playerSprite.setScale(SHIP_SCALE, SHIP_SCALE);
 }
 

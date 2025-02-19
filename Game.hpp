@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "Player.hpp"
-#include "Asteroid.hpp"
+#include "AsteroidBelt.hpp"
 
 const sf::Time secondsPerFrame = sf::seconds(1.0f / 120.0f);
 
@@ -19,6 +19,6 @@ private:
     sf::RenderWindow window;
     Player player;
 
-    std::vector<Asteroid> asteroids;
+    AsteroidBelt belt;
     sf::Texture asteroidTexture;
 };

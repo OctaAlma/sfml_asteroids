@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 
 #define SHIP_TEXTURE "./resources/ship.png"
-#define SHIP_SCALE          0.05
+#define SHIP_SCALE          0.075
 
 #define MAX_SPEED           450.0f
 #define SPEED_INCREASE      5.0f

@@ -3,9 +3,10 @@
 
 Asteroid::Asteroid(){}
 
-Asteroid::Asteroid(sf::Texture& asTex){
+Asteroid::Asteroid(sf::Texture& asTex, unsigned int colorInd){
     asteroidSprite.setTexture(asTex);
-    asteroidSprite.setOrigin(220.5f, 190.5f);
+    sf::FloatRect bounds = asteroidSprite.getLocalBounds();
+    asteroidSprite.setOrigin(bounds.width/2.0f, bounds.height/2.0f);
 
     asteroidSprite.setPosition(getRandom(MIN_ASTEROID_X, MAX_ASTEROID_X), getRandom(MIN_ASTEROID_Y, MAX_ASTEROID_Y));
     asteroidSprite.rotate(getRandom(0.0f, 360.0f));
@@ -19,6 +20,10 @@ Asteroid::Asteroid(sf::Texture& asTex){
     dir.x = getRandom(-1.0f, 1.0f);
     dir.y = getRandom(-1.0f, 1.0f);
     normalize(dir);
+
+    // set the color of the asteroid
+    sf::Color c(asteroid_colors[colorInd][0], asteroid_colors[colorInd][1], asteroid_colors[colorInd][2], 255);
+    asteroidSprite.setColor(c);
 }
 
 void Asteroid::update(sf::Time delta){
