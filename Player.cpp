@@ -12,15 +12,28 @@ Player::Player(){
         exit(1);
     }
 
+    if (!laserTexture.loadFromFile("./resources/projectile.png")){
+        // handle loading error...
+        cout << "Could not load sprite for ship...\n";
+        exit(1);
+    }
+
     memset(moving, 0, sizeof(bool)*4);
     memset(rotating, false, sizeof(bool)*2);
-    this->rotation = 0;
+    rotation = 0;
 
-    this->playerSprite.setTexture(playerTexture);
+    playerSprite.setTexture(playerTexture);
     sf::FloatRect bounds = playerSprite.getLocalBounds();
-    this->playerSprite.setOrigin({bounds.width / 2.0f, bounds.height / 2.0f});
-    this->playerSprite.setPosition(PLAYER_ORIGIN_X, PLAYER_ORIGIN_Y);
-    this->playerSprite.setScale(SHIP_SCALE, SHIP_SCALE);
+    playerSprite.setOrigin({bounds.width / 2.0f, bounds.height / 2.0f});
+    playerSprite.setPosition(PLAYER_ORIGIN_X, PLAYER_ORIGIN_Y);
+    playerSprite.setScale(SHIP_SCALE, SHIP_SCALE);
+
+    activeLasers = 0;
+    lastShot.restart();
+    lasers.reserve(MAX_LASER_SHOTS);
+    for (int i = 0; i < MAX_LASER_SHOTS; i++){
+        lasers.push_back(Laser(laserTexture));
+    }
 }
 
 sf::Sprite& Player::getSprite(){ return this->playerSprite; }
@@ -47,6 +60,26 @@ void Player::update(sf::Time delta){
     sf::Vector2f pos = playerSprite.getPosition();
     snapPosition(pos);
     playerSprite.setPosition(pos);
+
+    // update the lasers
+    for (auto& l : lasers){
+        if (l.isActive()) { 
+            l.update(delta); 
+            
+            if (!l.isActive() && activeLasers != 0){
+                activeLasers--;
+            }
+        }
+    }
+}
+
+void Player::drawLasers(sf::RenderWindow& window){
+    for (auto& l : lasers){
+        if (l.isActive()) { 
+            sf::Vector2f p = l.getSprite().getPosition();
+            window.draw(l.getSprite(), sf::RenderStates::Default); 
+        }
+    }
 }
 
 void Player::updateMovement(sf::Keyboard::Key key, bool pressed){
@@ -70,6 +103,38 @@ void Player::updateMovement(sf::Keyboard::Key key, bool pressed){
     }
     else if (key == sf::Keyboard::R){
         playerSprite.setPosition(100.0f, 100.0f);
+    }
+    else if (key == sf::Keyboard::Space){
+        // shoot a laser if possible!
+        if ((activeLasers < MAX_LASER_SHOTS) && (lastShot.getElapsedTime().asSeconds() >= LASER_COOLDOWN)){
+            lastShot.restart();
+            shootLaser();
+        }
+    }
+}
+
+int findUnusedLaser(std::vector<Laser>& lasers){
+    for (int i = 0; i < lasers.size(); i++){
+        if (lasers[i].isActive() == false){
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+void Player::shootLaser(){
+    if (activeLasers < MAX_LASER_SHOTS){
+
+        int laserInd = findUnusedLaser(lasers);
+        if (laserInd == -1){
+            cout << "Could not find an unused laser... Something went wrong.";
+            exit(1);
+        }
+
+        lasers[laserInd].reset(playerSprite.getPosition(), getDir());
+        
+        activeLasers++;
     }
 }
 

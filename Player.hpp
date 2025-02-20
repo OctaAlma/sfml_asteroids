@@ -1,4 +1,6 @@
 #include <SFML/Graphics.hpp>
+#include "./Laser.hpp"
+#include <vector>
 
 #define SHIP_TEXTURE "./resources/ship.png"
 #define SHIP_SCALE          0.075
@@ -12,6 +14,8 @@
 #define ANGULAR_INCREASE    15.0f
 #define NATURAL_ANGULAR_DEC 3.0f
 #define ANGULAR_THRESHOLD   3.0f
+
+#define MAX_LASER_SHOTS     6
 
 enum Direction{
     LEFT,
@@ -34,9 +38,16 @@ private:
     float angularSpeed;
     float rotation;
 
+    sf::Clock lastShot;
+    sf::Texture laserTexture;
+    std::vector<Laser> lasers;
+    int activeLasers;
+    void shootLaser();
+
 public:
     Player();
     sf::Sprite& getSprite();
+    void drawLasers(sf::RenderWindow& window);
     void update(sf::Time delta);
     void updateMovement(sf::Keyboard::Key key, bool pressed);
     sf::Vector2f getPos();

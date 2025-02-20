@@ -63,5 +63,6 @@ void Game::render(){
     window.clear();
     window.draw(player.getSprite(), sf::RenderStates::Default);
     belt.draw(window);
+    player.drawLasers(window);
     window.display();
 }

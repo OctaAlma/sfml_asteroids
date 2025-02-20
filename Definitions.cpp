@@ -4,7 +4,7 @@
 
 bool inMap(float x, float y){
     return x >= LOWER_BOUND_X && x <= UPPER_BOUND_X
-        && y >= LOWER_BOUND_Y && x <= UPPER_BOUND_Y;
+        && y >= LOWER_BOUND_Y && y <= UPPER_BOUND_Y;
 }
 
 bool inMap(sf::Vector2f& pos){
