@@ -7,7 +7,7 @@
 
 #define LASER_SPEED         900.0f
 #define LASER_ROT_SPEED     500.0f
-#define LASER_SCALE         0.1f
+#define LASER_SCALE         0.075f
 #define LASER_COOLDOWN      0.2f // the time, in seconds, before the player can shoot another laser
 
 

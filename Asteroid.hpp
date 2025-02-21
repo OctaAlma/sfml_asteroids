@@ -15,8 +15,8 @@
 
 enum ChildDirection{
     SAME_DIR,
-    PLUS_45,
-    MINUS_45
+    PLUS_90,
+    MINUS_90
 };
 
 const sf::Uint8 asteroid_colors[9][3] = 

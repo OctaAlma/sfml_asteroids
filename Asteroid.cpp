@@ -13,11 +13,10 @@ Asteroid::Asteroid(sf::Texture& asTex, unsigned int colorInd){
     asteroidSprite.setPosition(getRandom(MIN_ASTEROID_X, MAX_ASTEROID_X), getRandom(MIN_ASTEROID_Y, MAX_ASTEROID_Y));
     asteroidSprite.rotate(getRandom(0.0f, 360.0f));
 
-    float sc = getRandom(MIN_ASTEROID_SIZE, MAX_ASTEROID_SIZE);
-    asteroidSprite.scale(sc, sc);
+    size = getRandom(MIN_ASTEROID_SIZE, MAX_ASTEROID_SIZE);
+    asteroidSprite.scale(size, size);
 
     speed = getRandom(MIN_ASTEROID_SPEED, MAX_ASTEROID_SPEED);
-    size = getRandom(MIN_ASTEROID_SIZE, MAX_ASTEROID_SIZE);
 
     dir.x = getRandom(-1.0f, 1.0f);
     dir.y = getRandom(-1.0f, 1.0f);
@@ -36,11 +35,11 @@ Asteroid::Asteroid(Asteroid& father, ChildDirection newDir){
     asteroidSprite.setScale(size, size);
     dir = father.dir;
 
-    if (newDir == PLUS_45){
-        rotateVec(dir, 45.0f);
+    if (newDir == PLUS_90){
+        rotateVec(dir, 90.0f);
     }
-    else if (newDir == MINUS_45){
-        rotateVec(dir, -45.0f);
+    else if (newDir == MINUS_90){
+        rotateVec(dir, -90.0f);
     }
 }
 

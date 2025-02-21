@@ -35,14 +35,17 @@ void AsteroidBelt::draw(sf::RenderWindow& window){
     }
 }
 
-// Creates new child asteroid if ast is big enough. 
-// Child asteroids are pushed to the asteroids vector
-void splitAsteroid(vector<Asteroid>& asteroids, Asteroid& ast){
+// Creates new child asteroid if ast is big enough. In this case, the function will return true
+// Child asteroids are pushed to the asteroids vector.
+// If ast is too small, no new child asteroids will be pushed to the vector and function returns false
+bool splitAsteroid(vector<Asteroid>& asteroids, Asteroid& ast){
     float newSize = ast.getSize() / 2.0f;
     if (newSize >= MIN_ASTEROID_SIZE){
-        asteroids.push_back(Asteroid(ast, ChildDirection::PLUS_45));
-        asteroids.push_back(Asteroid(ast, ChildDirection::MINUS_45));
+        asteroids.push_back(Asteroid(ast, ChildDirection::PLUS_90));
+        asteroids.push_back(Asteroid(ast, ChildDirection::MINUS_90));
+        return true;
     }
+    return false;
 }
 
 // swaps asteroid to the back of the list and removes it from the vector

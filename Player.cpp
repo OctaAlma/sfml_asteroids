@@ -94,10 +94,10 @@ void Player::updateMovement(sf::Keyboard::Key key, bool pressed){
     // else if (key == sf::Keyboard::D){
     //     moving[RIGHT] = pressed;
     // }
-    else if (key == sf::Keyboard::Comma){
+    else if (key == sf::Keyboard::A){
         rotating[LEFT] = pressed;
     }
-    else if (key == sf::Keyboard::Period){
+    else if (key == sf::Keyboard::D){
         rotating[RIGHT] = pressed;
     }
     else if (key == sf::Keyboard::R){
