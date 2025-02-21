@@ -52,4 +52,6 @@ public:
     void updateMovement(sf::Keyboard::Key key, bool pressed);
     sf::Vector2f getPos();
     sf::Vector2f getDir();
+    std::vector<Laser>& getLasers();
+    void decreaseActiveLasers();
 };

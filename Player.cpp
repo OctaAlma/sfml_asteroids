@@ -76,7 +76,6 @@ void Player::update(sf::Time delta){
 void Player::drawLasers(sf::RenderWindow& window){
     for (auto& l : lasers){
         if (l.isActive()) { 
-            sf::Vector2f p = l.getSprite().getPosition();
             window.draw(l.getSprite(), sf::RenderStates::Default); 
         }
     }
@@ -128,7 +127,6 @@ void Player::shootLaser(){
 
         int laserInd = findUnusedLaser(lasers);
         if (laserInd == -1){
-            cout << "Could not find an unused laser... Something went wrong.";
             exit(1);
         }
 
@@ -147,3 +145,6 @@ sf::Vector2f Player::getDir(){
     rotateVec(v01, playerSprite.getRotation());
     return v01;
 }
+
+std::vector<Laser>& Player::getLasers(){ return this->lasers; }
+void Player::decreaseActiveLasers(){ activeLasers--; }

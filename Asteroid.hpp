@@ -13,6 +13,12 @@
 #define MIN_ASTEROID_Y          0.0f
 #define MAX_ASTEROID_Y          RESOLUTION_HEIGHT
 
+enum ChildDirection{
+    SAME_DIR,
+    PLUS_45,
+    MINUS_45
+};
+
 const sf::Uint8 asteroid_colors[9][3] = 
 {
     {255, 255, 255},    // white
@@ -38,6 +44,8 @@ private:
 public:
     Asteroid();
     Asteroid(sf::Texture& asTex, unsigned int colorInd=0);
+    Asteroid(Asteroid& father, ChildDirection newDir);
     void update(sf::Time delta);
     sf::Sprite& getSprite();
+    float getSize();
 };

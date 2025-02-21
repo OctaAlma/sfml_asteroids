@@ -19,6 +19,7 @@ void Laser::reset(sf::Vector2f pos, sf::Vector2f direction){
 }
 
 void Laser::update(sf::Time delta){
+    if (active == false){ return; }
 
     sf::Vector2f pos = laserSprite.getPosition();
     laserSprite.move(dir * LASER_SPEED * delta.asSeconds());
@@ -34,3 +35,5 @@ void Laser::update(sf::Time delta){
 sf::Sprite& Laser::getSprite(){ return this->laserSprite; }
 
 bool Laser::isActive(){ return this->active; }
+
+void Laser::setInactive() { this->active = false; }

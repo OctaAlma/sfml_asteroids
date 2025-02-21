@@ -2,7 +2,7 @@
 #include "./Definitions.h"
 #include <iostream>
 #include <math.h>
-using std::cout, std::endl;
+using std::cout, std::endl, std::vector;
 
 Game::Game():window(sf::VideoMode(RESOLUTION_WIDTH, RESOLUTION_HEIGHT), "SFML App"), player(), belt(){}
 
@@ -54,9 +54,25 @@ void Game::processEvents(){
     }
 }
 
+void collisionDetection(Player& p, AsteroidBelt& ab){
+    vector<Asteroid>& asteroids = ab.getAsteroids();
+    vector<Laser>& lasers = p.getLasers();
+
+    for (auto& l : lasers){
+
+        if (!l.isActive()){ continue; }
+
+        if (ab.collided(l)){
+            l.setInactive(); // GOTTA UPDATE PLAYER TOO!!!
+            p.decreaseActiveLasers();
+        }
+    }
+}
+
 void Game::update(sf::Time delta){
     player.update(delta);
     belt.update(delta);
+    collisionDetection(player, belt);
 }
 
 void Game::render(){

@@ -28,6 +28,22 @@ Asteroid::Asteroid(sf::Texture& asTex, unsigned int colorInd){
     asteroidSprite.setColor(c);
 }
 
+// Creates a child asteroid given a "father" asteroid and a direction shift
+Asteroid::Asteroid(Asteroid& father, ChildDirection newDir){
+    asteroidSprite = father.asteroidSprite;
+    speed = std::min(father.speed * 1.25f, MAX_ASTEROID_SPEED);
+    size = father.size / 2.0f;
+    asteroidSprite.setScale(size, size);
+    dir = father.dir;
+
+    if (newDir == PLUS_45){
+        rotateVec(dir, 45.0f);
+    }
+    else if (newDir == MINUS_45){
+        rotateVec(dir, -45.0f);
+    }
+}
+
 void Asteroid::update(sf::Time delta){
     asteroidSprite.move(dir * speed * delta.asSeconds());
     sf::Vector2f pos = asteroidSprite.getPosition();
@@ -35,6 +51,5 @@ void Asteroid::update(sf::Time delta){
     asteroidSprite.setPosition(pos);
 }
 
-sf::Sprite& Asteroid::getSprite(){
-    return asteroidSprite; 
-}
+sf::Sprite& Asteroid::getSprite(){ return asteroidSprite; }
+float Asteroid::getSize() { return size; }

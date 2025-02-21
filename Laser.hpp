@@ -1,3 +1,7 @@
+#pragma once
+#ifndef LASER_HPP
+#define LASER_HPP
+
 #include <SFML/Graphics.hpp>
 #include "./Definitions.h"
 
@@ -20,4 +24,7 @@ public:
     void update(sf::Time delta);
     sf::Sprite& getSprite();
     bool isActive();
+    void setInactive();
 };
+
+#endif
